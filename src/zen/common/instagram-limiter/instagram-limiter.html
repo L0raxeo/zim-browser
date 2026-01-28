@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Limiter</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+        sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 50px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 600px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 32px;
+    }
+
+    .message {
+      font-size: 20px;
+      color: #555;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .limit-message {
+      font-size: 18px;
+      color: #d32f2f;
+      margin-bottom: 30px;
+      line-height: 1.8;
+      font-weight: 500;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 18px 40px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .yes-btn {
+      background: #f44336;
+      color: white;
+    }
+
+    .yes-btn:hover {
+      background: #d32f2f;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+    }
+
+    .no-btn {
+      background: #4caf50;
+      color: white;
+    }
+
+    .no-btn:hover {
+      background: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    }
+
+    .count-display {
+      font-size: 48px;
+      font-weight: bold;
+      color: #667eea;
+      margin: 20px 0;
+    }
+
+    #limitReached {
+      display: none;
+    }
+
+    #normalPrompt {
+      display: block;
+    }
+
+    #pledgeScreen {
+      display: none;
+    }
+
+    .pledge-text {
+      font-size: 16px;
+      color: #d32f2f;
+      margin-bottom: 20px;
+      line-height: 1.8;
+      text-align: left;
+      padding: 20px;
+      background: #ffebee;
+      border-radius: 10px;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 200px;
+      padding: 15px;
+      font-size: 14px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
+        sans-serif;
+      margin-bottom: 20px;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .error-message {
+      color: #d32f2f;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="normalPrompt">
+      <h1>Instagram Warning</h1>
+      <div class="message">
+        Are you sure you want to open it? You can only open it <span class="count-display" id="countDisplay">...</span> more time(s) today.
+      </div>
+      <div class="button-container">
+        <button class="yes-btn" id="yesBtn">yes, I'm a lazy fuck</button>
+        <button class="no-btn" id="noBtn">nah. Imma actually do smth</button>
+      </div>
+    </div>
+
+    <div id="limitReached">
+      <h1>LIMIT REACHED</h1>
+      <div class="limit-message">
+        Stop opening Instagram you lazy fuck. If you're going to procrastinate school work, you have: Agentic, Venues, and Research to work on. go do that shit. Jamie Dimon didn't spend his time jerking off to Instagram.
+      </div>
+      <div class="button-container">
+        <button class="no-btn" id="limitNoBtn">Go to Google</button>
+      </div>
+    </div>
+
+    <div id="pledgeScreen">
+      <h1>Type the Pledge</h1>
+      <div class="pledge-text" id="pledgeText">
+        I hereby declare that I am a lazy fuck that decides to waste his time scrolling through Instagram rather than enjoying life to the fullest. Instead of working on Agentic Solutions, Venues, or even getting PAID for doing research, I would rather aimlessly scroll through instagram.com, searching for a quick dopamine fix instead of doing the things that I love doing. When my great-grandchildren look back at my photo albums, there will be no photos, because I spent my time scrolling rather than taking life to its fullest advantage.
+      </div>
+      <textarea id="pledgeInput" placeholder="Type the pledge exactly as shown above..."></textarea>
+      <div class="error-message" id="errorMessage">you didn't pledge fully.</div>
+      <div class="button-container">
+        <button class="yes-btn" id="submitPledge">Submit Pledge</button>
+        <button class="no-btn" id="cancelPledge">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="instagram-limiter.js"></script>
+</body>
+</html>
