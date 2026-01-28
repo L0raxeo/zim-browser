@@ -24,6 +24,7 @@ export class nsZenMenuBar {
     this.#initViewMenu();
     this.#initSpacesMenu();
     this.#initAppMenu();
+    this.#hideWindowRestoreMenus();
   }
 
   #initViewMenu() {
@@ -120,5 +121,16 @@ export class nsZenMenuBar {
                 key="zen-new-unsynced-window"
                 command="cmd_zenNewNavigatorUnsynced"/>`)
     );
+  }
+
+  #hideWindowRestoreMenus() {
+    if (!Services.prefs.getBoolPref("zen.window-sync.enabled", true)) {
+      return;
+    }
+    const itemsToHide = ["appMenuRecentlyClosedWindows", "historyUndoWindowMenu"];
+    for (const id of itemsToHide) {
+      const element = PanelMultiView.getViewNode(document, id);
+      element.setAttribute("hidden", "true");
+    }
   }
 }
