@@ -506,6 +506,10 @@ class KeyShortcut {
     return this.#disabled;
   }
 
+  setDisabled(value) {
+    this.#disabled = value;
+  }
+
   isReserved() {
     return this.#reserved;
   }
@@ -796,6 +800,10 @@ class nsZenKeyboardShortcutsLoader {
         continue;
       }
       let parsed = KeyShortcut.parseFromXHTML(key, { group: "devTools" });
+      // Move "inspector" shortcut to use "L" key instead of "I"
+      if (parsed.getID() == "key_inspector" || parsed.getID() == "key_inspectorMac") {
+        parsed.setNewBinding("L");
+      }
       newShortcutList.push(parsed);
     }
 
@@ -1105,26 +1113,34 @@ class nsZenKeyboardShortcutsVersioner {
 
     if (version < 15) {
       // Migrate from version 13 to 14
-      // Add shortcut to open a new unsynced window: Default accelt+option+N (Ctrl+Alt+N on non-macOS)
+      // Add shortcut to open a new unsynced window: Default accelt+shift+N
       data.push(
         new KeyShortcut(
           "zen-new-unsynced-window",
           "N",
           "",
           ZEN_OTHER_SHORTCUTS_GROUP,
-          AppConstants.platform === "win"
-            ? nsKeyShortcutModifiers.fromObject({ alt: true })
-            : nsKeyShortcutModifiers.fromObject({ accel: true, alt: true }),
+          nsKeyShortcutModifiers.fromObject({ accel: true, shift: true }),
           "cmd_zenNewNavigatorUnsynced",
           "zen-new-unsynced-window-shortcut"
         )
       );
       // Also, change the default for new empty split from + to * on mac
+      // and disable the "Restore closed window" shortcut by default due to conflicts
+      let emptySplitFound = false,
+        undoCloseWindowFound = false;
       for (let shortcut of data) {
         if (shortcut.getID() == "zen-new-empty-split-view" && AppConstants.platform == "macosx") {
           if (shortcut.getKeyName() == "+") {
             shortcut.setNewBinding("*");
           }
+          emptySplitFound = true;
+        } else if (shortcut.getID() == "key_undoCloseWindow") {
+          shortcut.shouldBeEmpty = true;
+          shortcut.setDisabled(true);
+          undoCloseWindowFound = true;
+        }
+        if (emptySplitFound && undoCloseWindowFound) {
           break;
         }
       }

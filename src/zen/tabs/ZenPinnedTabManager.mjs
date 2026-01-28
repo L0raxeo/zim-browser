@@ -76,6 +76,17 @@ class nsZenPinnedTabManager extends nsZenDOMOperatedFeature {
     this._zenClickEventListener = this._onTabClick.bind(this);
 
     gZenWorkspaces._resolvePinnedInitialized();
+    if (lazy.zenPinnedTabRestorePinnedTabsToPinnedUrl) {
+      gZenWorkspaces.promiseInitialized.then(() => {
+        for (const tab of gZenWorkspaces.allStoredTabs) {
+          try {
+            this.resetPinnedTab(tab);
+          } catch (ex) {
+            console.error("Error restoring pinned tab:", ex);
+          }
+        }
+      });
+    }
   }
 
   log(message) {
@@ -162,7 +173,7 @@ class nsZenPinnedTabManager extends nsZenDOMOperatedFeature {
     this._resetTabToStoredState(tab);
   }
 
-  async replacePinnedUrlWithCurrent(tab = undefined) {
+  replacePinnedUrlWithCurrent(tab = undefined) {
     tab ??= TabContextMenu.contextTab;
     if (!tab || !tab.pinned) {
       return;
@@ -564,6 +575,12 @@ class nsZenPinnedTabManager extends nsZenDOMOperatedFeature {
       if (currentEssenialContainer?.essentialsPromo) {
         currentEssenialContainer.essentialsPromo.remove();
       }
+
+      movingTabs = movingTabs.filter((tab) =>
+        gBrowser.isTabGroupLabel(tab) && tab.group?.isZenFolder
+          ? !tabsTarget && !essentialTabsTarget
+          : true
+      );
 
       // TODO: Solve the issue of adding a tab between two groups
       // Remove group labels from the moving tabs and replace it
