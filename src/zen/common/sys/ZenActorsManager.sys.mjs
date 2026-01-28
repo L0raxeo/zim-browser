@@ -83,6 +83,15 @@ let JSWINDOWACTORS = {
     matches: ["*://*/*", "file://*/*", "about:*"],
     enablePreference: "zen.vim.enabled",
   },
+  ZenInstagramLimiter: {
+    parent: {
+      esModuleURI: "resource:///actors/ZenInstagramLimiterParent.sys.mjs",
+    },
+    child: {
+      esModuleURI: "resource:///actors/ZenInstagramLimiterChild.sys.mjs",
+    },
+    matches: ["chrome://browser/content/zen-components/*"],
+  },
 };
 
 export let gZenActorsManager = {
