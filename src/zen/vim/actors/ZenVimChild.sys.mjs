@@ -975,7 +975,7 @@ export class ZenVimChild extends JSWindowActorChild {
     }
     const pos = this.#getTextControlCursor(editableTarget);
     const start = this.#findWordStartBackward(value, pos);
-    const end = Math.min(pos + 1, value.length);
+    const end = Math.min(pos, value.length);
     if (start >= end) {
       return;
     }
