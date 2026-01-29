@@ -11,4 +11,6 @@ EXTRA_JS_MODULES += [
 FINAL_TARGET_FILES.actors += [
   "actors/ZenInstagramLimiterChild.sys.mjs",
   "actors/ZenInstagramLimiterParent.sys.mjs",
+  "actors/ZenYouTubeShortsLimiterChild.sys.mjs",
+  "actors/ZenYouTubeShortsLimiterParent.sys.mjs",
 ]

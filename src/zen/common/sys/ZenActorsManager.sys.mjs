@@ -92,6 +92,32 @@ let JSWINDOWACTORS = {
     },
     matches: ["chrome://browser/content/zen-components/*"],
   },
+  ZenYouTubeShortsLimiter: {
+    parent: {
+      esModuleURI: "resource:///actors/ZenYouTubeShortsLimiterParent.sys.mjs",
+    },
+    child: {
+      esModuleURI: "resource:///actors/ZenYouTubeShortsLimiterChild.sys.mjs",
+      events: {
+        DOMContentLoaded: {},
+        click: {
+          capture: true,
+        },
+        keydown: {
+          capture: true,
+        },
+        wheel: {
+          capture: true,
+          passive: false,
+        },
+        touchmove: {
+          capture: true,
+          passive: false,
+        },
+      },
+    },
+    matches: ["*://*.youtube.com/*", "*://youtube.com/*"],
+  },
 };
 
 export let gZenActorsManager = {
